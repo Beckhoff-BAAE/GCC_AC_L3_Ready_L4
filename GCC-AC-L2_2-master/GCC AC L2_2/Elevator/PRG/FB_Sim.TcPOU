@@ -1,0 +1,269 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_Sim" Id="{85c3bc2d-d7cc-4588-b189-b607db4c79eb}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Sim
+VAR_IN_OUT
+	Floors:		ARRAY[1..4]	OF	ST_Floor;
+	RequestedFloor: INT;
+	ActualFloor: INT;
+
+END_VAR
+VAR_INPUT
+		state:INT;
+END_VAR
+VAR
+
+	delay3s	:	TON;
+	delay6s	:	TON;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE State OF
+	1:
+		Floors[ActualFloor].Mid:=FALSE;
+		state:=State+1;
+	2:
+		Delay3s.IN:=TRUE;
+		IF Delay3s.Q THEN
+			state:=state+1;
+			Delay3s.IN:=FALSE;
+		END_IF
+	3:
+		GVL.Elevator_Y:=GVL.Elevator_Y-55;
+		Floors[ActualFloor].High:=TRUE;
+		state:=state+1;
+	4:
+		Delay3s.IN:=TRUE;
+		IF Delay3s.Q THEN
+			state:=state+1;
+			Delay3s.IN:=FALSE;
+		END_IF
+	5:
+		Floors[ActualFloor].High:=FALSE;
+		State:=state+1;
+	6:
+		Delay6s.IN:=TRUE;
+		IF Delay6s.Q THEN
+			state:=state+1;
+			Delay6s.IN:=FALSE;
+			ActualFloor:=ActualFloor+1;
+		END_IF
+	7:
+		GVL.Elevator_Y:=GVL.Elevator_Y-71;
+		Floors[ActualFloor].Low:=TRUE;
+		state:=state+1;
+	8:
+		Delay3s.IN:=TRUE;
+		IF Delay3s.Q THEN
+			state:=state+1;
+			Delay3s.IN:=FALSE;
+		END_IF
+	9:
+		Floors[ActualFloor].Low:=FALSE;
+		state:=state+1;
+	
+	10:
+		Floors[ActualFloor].Mid:=TRUE;
+		state:=state+1;
+		GVL.Elevator_Y:=GVL.Elevator_Y-55;
+	11:	Delay3s.IN:=TRUE;
+		IF Delay3s.Q THEN
+			state:=1;
+			Delay3s.IN:=FALSE;
+		END_IF
+	12:
+		Floors[ActualFloor].Low:=TRUE;
+		state:=state+1;
+		GVL.Elevator_Y:=GVL.Elevator_Y-71;
+	13:
+		Delay3s.IN:=TRUE;
+		IF Delay3s.Q THEN
+			state:=state+1;
+			Delay3s.IN:=FALSE;
+		END_IF
+	14:
+		Floors[ActualFloor].Low:=FALSE;
+		state:=state+1;
+	15:
+		GVL.Elevator_Y:=GVL.Elevator_Y-55;
+		Floors[ActualFloor].Low:=FALSE;
+		Floors[ActualFloor].High:=FALSE;
+		Floors[ActualFloor].Mid:=TRUE;
+		state:=99;
+		
+	16:
+		Floors[ActualFloor].Mid:=FALSE;
+		State:=State+1;
+	17:
+		Delay3s.IN:=TRUE;
+		IF Delay3s.Q THEN
+			state:=state+1;
+			Delay3s.IN:=FALSE;
+		END_IF
+	18:
+		Floors[ActualFloor].Low:=TRUE;
+		GVL.Elevator_Y:=GVL.Elevator_Y+55;
+		state:=state+1;
+	
+	19:
+		Delay3s.IN:=TRUE;
+		IF Delay3s.Q THEN
+			state:=state+1;
+			Delay3s.IN:=FALSE;
+		END_IF
+	
+	20:
+		Floors[ActualFloor].Low:=FALSE;
+		state:=state+1;
+	21:
+		Delay6s.IN:=TRUE;
+		IF Delay6s.Q THEN
+			state:=state+1;
+			ActualFloor:=ActualFloor-1;
+			
+			Delay6s.IN:=FALSE;
+		END_IF
+	22:
+		GVL.Elevator_Y:=GVL.Elevator_Y+71;
+		Floors[ActualFloor].High:=TRUE;
+		state:=state+1;
+	
+	23:
+		Delay3s.IN:=TRUE;
+		IF Delay3s.Q THEN
+			state:=state+1;
+			Delay3s.IN:=FALSE;
+		END_IF
+	24:
+		Floors[ActualFloor].High:=FALSE;
+		GVL.Elevator_Y:=GVL.Elevator_Y+55;
+		state:=state+1;
+	25:
+	Floors[ActualFloor].Mid:=TRUE;
+	state:=state+1;	
+	
+	26:
+		Delay3s.IN:=TRUE;
+		IF Delay3s.Q THEN
+			state:=16;
+			Delay3s.IN:=FALSE;
+		END_IF
+		
+	27:
+		Floors[ActualFloor].High:=TRUE;
+		GVL.Elevator_Y:=GVL.Elevator_Y+71;
+		state:=state+1;
+	28:
+		Delay3s.IN:=TRUE;
+		IF Delay3s.Q THEN
+			state:=state+1;
+			Delay3s.IN:=FALSE;
+		END_IF
+	29:
+		Floors[ActualFloor].High:=FALSE;
+		state:=state+1;
+	30:
+		GVL.Elevator_Y:=GVL.Elevator_Y+55;
+		Floors[ActualFloor].Low:=FALSE;
+		Floors[ActualFloor].High:=FALSE;
+		Floors[ActualFloor].Mid:=TRUE;
+		state:=99;	
+	
+END_CASE
+
+delay3s(IN:= delay3s.IN, PT:= T#500MS, Q=> , ET=> );
+delay6s(IN:= delay6s.IN, PT:= T#2S, Q=> , ET=> );]]></ST>
+    </Implementation>
+    <LineIds Name="FB_Sim">
+      <LineId Id="9" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="39" Count="1" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="181" Count="0" />
+      <LineId Id="43" Count="1" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="71" Count="3" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="52" Count="1" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="76" Count="3" />
+      <LineId Id="82" Count="0" />
+      <LineId Id="75" Count="0" />
+      <LineId Id="81" Count="0" />
+      <LineId Id="182" Count="0" />
+      <LineId Id="54" Count="1" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="57" Count="3" />
+      <LineId Id="56" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="63" Count="0" />
+      <LineId Id="83" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="183" Count="0" />
+      <LineId Id="101" Count="3" />
+      <LineId Id="100" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="86" Count="1" />
+      <LineId Id="184" Count="0" />
+      <LineId Id="88" Count="7" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="96" Count="0" />
+      <LineId Id="189" Count="0" />
+      <LineId Id="98" Count="1" />
+      <LineId Id="97" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="106" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="105" Count="0" />
+      <LineId Id="107" Count="5" />
+      <LineId Id="18" Count="1" />
+      <LineId Id="113" Count="0" />
+      <LineId Id="185" Count="0" />
+      <LineId Id="121" Count="6" />
+      <LineId Id="114" Count="2" />
+      <LineId Id="128" Count="1" />
+      <LineId Id="117" Count="0" />
+      <LineId Id="131" Count="2" />
+      <LineId Id="161" Count="0" />
+      <LineId Id="186" Count="0" />
+      <LineId Id="134" Count="0" />
+      <LineId Id="130" Count="0" />
+      <LineId Id="118" Count="0" />
+      <LineId Id="191" Count="0" />
+      <LineId Id="135" Count="0" />
+      <LineId Id="141" Count="2" />
+      <LineId Id="145" Count="3" />
+      <LineId Id="144" Count="0" />
+      <LineId Id="120" Count="0" />
+      <LineId Id="149" Count="0" />
+      <LineId Id="187" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="150" Count="0" />
+      <LineId Id="152" Count="1" />
+      <LineId Id="151" Count="0" />
+      <LineId Id="154" Count="0" />
+      <LineId Id="157" Count="3" />
+      <LineId Id="155" Count="0" />
+      <LineId Id="162" Count="0" />
+      <LineId Id="165" Count="1" />
+      <LineId Id="188" Count="0" />
+      <LineId Id="167" Count="10" />
+      <LineId Id="190" Count="0" />
+      <LineId Id="178" Count="2" />
+      <LineId Id="163" Count="1" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="37" Count="1" />
+      <LineId Id="36" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

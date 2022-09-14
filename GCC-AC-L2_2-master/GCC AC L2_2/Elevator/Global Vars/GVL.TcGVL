@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <GVL Name="GVL" Id="{b29cab17-c559-4e76-9865-572eff242459}">
+    <Declaration><![CDATA[VAR_GLOBAL
+	Elevator:FB_Elevator;
+	Floors:ARRAY[1..4]	OF	ST_Floor;
+	RequestedFloor: INT;
+	ActualFloor: INT:=1;
+	BT_Text:ARRAY[1..4]	OF	STRING:=['Call L1','Call L2','Call L3','Call L4'];
+	Elevator_Y:INT;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

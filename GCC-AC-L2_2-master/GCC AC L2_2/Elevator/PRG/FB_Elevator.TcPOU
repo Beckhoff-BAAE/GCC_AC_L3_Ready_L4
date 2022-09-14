@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <POU Name="FB_Elevator" Id="{5904b407-8b88-4e68-9b86-33a97d4ede29}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Elevator
+VAR
+	Up,
+	Down,
+	Slow,
+	Brake :BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Action Name="MoveDown" Id="{fbd0998e-dc21-4137-8767-13118fd4f0cc}">
+      <Implementation>
+        <ST><![CDATA[Up:=FALSE;
+Down:=TRUE;
+Slow:=FALSE;
+Brake:=FALSE;
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="MoveUp" Id="{c2141de1-4ac1-467b-82dc-e7696b654923}">
+      <Implementation>
+        <ST><![CDATA[Up:=TRUE;
+Down:=FALSE;
+Slow:=FALSE;
+Brake:=FALSE;
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="SlowDown" Id="{22c806b6-d209-4e38-aa92-07440957d394}">
+      <Implementation>
+        <ST><![CDATA[Slow:=TRUE;]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="Stop" Id="{0cbeb641-d90e-4562-8ccf-eaab96289ac5}">
+      <Implementation>
+        <ST><![CDATA[Up:=
+Down:=
+Slow:=FALSE;
+Brake:=TRUE;
+]]></ST>
+      </Implementation>
+    </Action>
+    <LineIds Name="FB_Elevator">
+      <LineId Id="18" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Elevator.MoveDown">
+      <LineId Id="1" Count="3" />
+      <LineId Id="6" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Elevator.MoveUp">
+      <LineId Id="2" Count="3" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Elevator.SlowDown">
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Elevator.Stop">
+      <LineId Id="2" Count="3" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
